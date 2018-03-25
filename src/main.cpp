@@ -196,6 +196,7 @@ void setup(void)
   }
 
   irsend.begin();
+  //irsend.overrideFreqs(82000,140000); //HK A-Bus?
   irrecv.enableIRIn();  // Start the receiver
 
   //save the custom parameters to FS
@@ -282,8 +283,12 @@ void loop(void)
         // any other has code and bits
         sprintf(myValue, "%d", results.value);
         mqttClient.publish((char*) myTopic, (char*) myValue );
+        sendToDebug(myTopic);
+        sendToDebug("=>");
+        sendToDebug(myValue);
+        sendToDebug("\n");
       }
-      else if (rawMode==true)
+      if (rawMode==true)
       {
         // RAW MODE
         String myString;
@@ -296,6 +301,10 @@ void loop(void)
         myString.toCharArray(myValue,500);
         sprintf(myTopic, "%s/receiver/raw", mqtt_prefix );
         mqttClient.publish( (char*) myTopic, (char*) myValue );
+        sendToDebug(myTopic);
+        sendToDebug("=>");
+        sendToDebug(myValue);
+        sendToDebug("\n");
       }
       irrecv.resume();              // Prepare for the next value
     }

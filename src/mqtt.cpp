@@ -286,6 +286,8 @@ void MQTTcallback(char* topic, byte* payload, unsigned int length)
         irPanasAddrStr = topicSuffix.substring(endOfBits+1);
       }
       irBitsInt = irBitsStr.toInt();
+      if (irBitsInt<=0) irBitsInt=0;
+      //Serial.println(irBitsInt);
     }
 
     sendToDebug(String("*IR: TypStr=") + irTypStr+"\n");
@@ -371,6 +373,13 @@ void MQTTcallback(char* topic, byte* payload, unsigned int length)
     {
       sendToDebug(String("*IR: Send NEC:")+msgInt);
       irsend.sendNEC(msgInt, irBitsInt);
+        }
+    else if (irTypStr=="HK")
+    {
+      sendToDebug(String("*IR: Send HK:")+msgInt);
+      irsend.sendNEC(msgInt, irBitsInt);
+      irsend.sendNEC(-1, 0);
+      //irsend.sendNEC(-1, 0);
     }
     else if (irTypStr=="RC5")
     {

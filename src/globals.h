@@ -10,7 +10,7 @@
 #define SLOT_SIZE 300   // Size of single slot
 #define SEQ_SIZE 10     // Raw sequnece size
 
-//#define DEBUG X
+#define DEBUG X
 
 #define VERSION "0.10"
 
